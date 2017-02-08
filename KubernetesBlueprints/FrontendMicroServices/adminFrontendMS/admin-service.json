@@ -1,0 +1,27 @@
+{
+  "kind": "Service",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "arkisadminfrontend",
+    "namespace": "arkis",
+    "creationTimestamp": null,
+    "labels": {
+      "service": "arkisadminfrontend"
+    }
+  },
+  "spec": {
+    "ports": [
+      {
+        "name": "32002",
+        "protocol": "TCP",
+        "port": 80,
+        "targetPort": 80,
+        "nodePort": 32002
+      }
+    ],
+    "selector": {
+      "service": "arkisadminfrontend"
+    },
+    "type": "NodePort"
+  }
+}

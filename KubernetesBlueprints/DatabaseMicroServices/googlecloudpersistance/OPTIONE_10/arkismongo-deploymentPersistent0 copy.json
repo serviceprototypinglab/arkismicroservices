@@ -1,0 +1,53 @@
+{
+  "kind": "Deployment",
+  "apiVersion": "extensions/v1beta1",
+  "metadata": {
+    "name": "arkismongopersistent1",
+    "namespace": "arkis",
+    "creationTimestamp": null
+  },
+  "spec": {
+    "replicas": 1,
+    "template": {
+      "metadata": {
+        "creationTimestamp": null,
+        "labels": {
+          "service": "arkismongopersistent1"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "arkismongopersistent1",
+            "image": "mongo",
+            "ports": [
+              {
+                "containerPort": 27017,
+                "protocol": "TCP"
+              }
+            ],
+            "volumeMounts": [
+              {
+                "name": "mongo-persistent-storage",
+                "mountPath": "/data/db"
+              }
+          ],
+            "resources": {}
+          }
+        ],
+        "volumes": [
+          {
+            "name": "mongo-persistent-storage",
+            "gcePersistentDisk": {
+              "pdName": "mongodb-disk1",
+              "fsType": "ext4"
+            }
+          }
+        ],
+        "restartPolicy": "Always"
+      }
+    },
+    "strategy": {}
+  },
+  "status": {}
+}

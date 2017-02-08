@@ -1,0 +1,130 @@
+<html>
+<head>
+    <title>Document Search</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!--
+        # A: Shared DBMS, Shared database, shared schema, shared table/collection
+        # B: Shared DBMS, Shared database, shared schema, one table/collection per tenant
+        # C: Shared DBMS, Shared database, one schema per tenant
+        # D: Shared DBMS, one database per tenant
+        # E: One DBMS per tenant
+    -->
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <script src="./index.js"></script>
+</head>
+<body class="container-fluid">
+    <div class="row">
+        <div class="col-md-6"><h1 id="title_arkis_id" style="color:pink;">ARKIS 3.0</h1></div>
+        <br>
+        <div class="col-md-2"><label for="select_user">Welcome: </label><select disabled id="select_user" style="width: 100%"></select></div>
+        <div class="col-md-4">
+            <label for="select_multi_tenant">Option: </label><select disabled id="select_multi_tenant" style="width: 100%">
+                <option id="multitenant_a" value="A">A: Shared DBMS, Shared database, shared schema, shared table/collection</option>
+                <option id="multitenant_b" value="B">B: Shared DBMS, Shared database, shared schema, one table/collection per tenant</option>
+                <option id="multitenant_c" value="C">C: Shared DBMS, Shared database, one schema per tenant</option>
+                <option id="multitenant_d" value="D">D: Shared DBMS, one database per tenant</option>
+                <option id="multitenant_e" value="E">E: One DBMS per tenant</option>
+                <option id="multitenant_f" value="F">F: No user</option>
+                <option id="multitenant_g" value="G">Loading</option>
+            </select>
+        </div>
+    </div>
+    <div id="loader_id">
+        <div class="row">
+            <div class="col-md-5"></div>
+            <div class="col-md-2">
+                <div class="loader"></div>
+            </div>
+            <div class="col-md-5"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-5"></div>
+            <div class="col-md-2">
+               <!-- Migrating -->
+            </div>
+            <div class="col-md-5"></div>
+        </div>
+    </div>
+    <div id="no_loader_id">
+        <ul class="nav nav-tabs">
+          <li role="presentation" id="documents" class="active"><a id="documents_l" href="#">Documents</a></li>
+          <li role="presentation" id="info"><a id="info_l" href="#">Info</a></li>
+        </ul>
+        <div id="documents_id">
+            <br>
+            <div class="row navbar navbar-default">
+                <div class="col-md-1">
+
+                </div>
+                <div class="col-md-11">
+                    <button id="button_back_id_doc">GO BACK</button>
+                    <button id="button_new_id_doc">New/Update</button>
+                    <label for="text_search_id_doc"></label><input id="text_search_id_doc" placeholder="(pattern)" class="text"><button id="button_search_id_doc">Search</button>
+                    <input id="text_delete_id_doc" class="text" placeholder="(id)" ><button id="button_delete_id_doc">Delete</button>
+                    <input id="text_limit_id_doc" class="text" placeholder="(limit)" ><button id="button_all_id_doc">Get</button>
+                    <input id="text_id_doc" class="text" placeholder="(id)"><button id="button_get_id_doc">GetById</button>
+                </div>
+            </div>
+            <div id="document_id" class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <div id="list_doc">
+                        <ul id="list_document_id"></ul>
+                    </div>
+                    <div id="one_doc">
+                        <h3 id="document_other_id" > Last document added </h3>
+                        <h2 id="document_title_id"> Title</h2>
+                        <p id="document_blob_id"> Document</p>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+            <div id="new_blob_doc" class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <label>blob:</label>   <input id="text_blob_doc"><br>
+                    <label>name:</label>   <input id="text_name_doc"><br>
+                    <label>title:</label>  <input id="text_title_doc"><br>
+                    <label>number:</label> <input id="text_number_doc"><br>
+                    <label>id:</label>     <input id="text_other_id_doc"><br>
+                    <button id="button_create_id_doc">CREATE</button>
+                    <button id="button_update_id_doc">UPDATE</button>
+                </div>
+                <div class="col-md-6"></div>
+            </div>
+        </div>
+        <div id="info_id" class="row">
+            <div class="col-md-4"></div>
+            <br>
+            <div class="col-md-6">
+                <p>
+                    It is a UI for use the ARKIS Micro-service Architecture (<a href="https://blog.zhaw.ch/icclab/cloud-native-document-management/">Cloud native document management</a>).
+                </p>
+                <p>
+                    Documents.
+                </p><p>
+                    <ul>
+                        <li>Go back: You will see the last document added.</li>
+                        <li>New/Update: You can create or update a document.</li>
+                        <li>Search: Do a search in all the documents using the pattern.</li>
+                        <li>Delete: Delete a document using the id.</li>
+                        <li>Get: Return a list of document with a limit.</li>
+                        <li>GetById: Return the document with the id.</li>
+                    </ul>
+                </p>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+</body>
+</html>

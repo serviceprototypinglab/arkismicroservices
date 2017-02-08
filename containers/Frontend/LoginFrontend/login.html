@@ -1,0 +1,67 @@
+<html>
+<head>
+    <title>Document Search</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="./login.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!--
+        # A: Shared DBMS, Shared database, shared schema, shared table/collection
+        # B: Shared DBMS, Shared database, shared schema, one table/collection per tenant
+        # C: Shared DBMS, Shared database, one schema per tenant
+        # D: Shared DBMS, one database per tenant
+        # E: One DBMS per tenant
+    -->
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" type="text/css" href="login.css">
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-5"><h1 id="title_arkis_id" style="color:pink;">ARKIS 3.0</h1></div>
+        <br>
+        <div class="col-md-2"></div>
+        <div class="col-md-4"></div>
+    </div>
+    <div id="loader_id">
+        <div class="row">
+            <div class="col-md-5"></div>
+            <div class="col-md-2">
+                <div class="loader"></div>
+            </div>
+            <div class="col-md-5"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-5"></div>
+            <div class="col-md-2">
+                <!-- Migrating -->
+            </div>
+            <div class="col-md-5"></div>
+        </div>
+    </div>
+    <div id="no_loader_id" class="login-page">
+        <div class="form">
+            <form class="register-form">
+                <input id="new_user_id" type="text" placeholder="name"/>
+                <input id="new_pass_id" type="password" placeholder="password"/>
+                <input id="new_tenant_id" type="text" placeholder="Multitenant option"/>
+                <button id="create_id">create</button>
+                <p class="message">Already registered? <a href="#">Sign In</a></p>
+            </form>
+            <form class="login-form">
+                <input id="user_id" type="text" placeholder="username or id"/>
+                <input id="pass_id" type="password" placeholder="password"/>
+                <button id="login_id">login</button>
+                <p class="message">Not registered? <a href="#">Create an account</a></p>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,52 @@
+{
+  "kind": "Deployment",
+  "apiVersion": "extensions/v1beta1",
+  "metadata": {
+    "name": "arkismongopersistent",
+    "namespace": "arkis",
+    "creationTimestamp": null
+  },
+  "spec": {
+    "replicas": 1,
+    "template": {
+      "metadata": {
+        "creationTimestamp": null,
+        "labels": {
+          "service": "arkismongopersistent"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "arkismongopersistent",
+            "image": "mongo",
+            "ports": [
+              {
+                "containerPort": 27017,
+                "protocol": "TCP"
+              }
+            ],
+            "volumeMounts": [
+              {
+                "name": "mongo-persistent-storage",
+                "mountPath": "/data/db"
+              }
+          ],
+            "resources": {}
+          }
+        ],
+        "volumes": [
+          {
+            "name": "mongo-persistent-storage",
+            "hostPath": {
+              "path": "/Users/manuel/Documents/ARKIS/containersARKIS/KubernetesBlueprints/kubernetes1.4/simple/MultiTenant/persistent/mongopersistentstorage"
+            }
+          }
+        ],
+        "restartPolicy": "Always"
+      }
+    },
+    "strategy": {}
+  },
+  "status": {}
+}

@@ -1,0 +1,4 @@
+pymongo
+bottle
+requests
+loremipsum

@@ -1,0 +1,27 @@
+{
+  "kind": "Service",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "arkisuserfrontend",
+    "namespace": "arkis",
+    "creationTimestamp": null,
+    "labels": {
+      "service": "arkisuserfrontend"
+    }
+  },
+  "spec": {
+    "ports": [
+      {
+        "name": "32003",
+        "protocol": "TCP",
+        "port": 80,
+        "targetPort": 80,
+        "nodePort": 32001
+      }
+    ],
+    "selector": {
+      "service": "arkisuserfrontend"
+    },
+    "type": "NodePort"
+  }
+}

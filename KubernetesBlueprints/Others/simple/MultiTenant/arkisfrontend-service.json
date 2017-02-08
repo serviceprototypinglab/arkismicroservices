@@ -1,0 +1,25 @@
+{
+  "kind": "Service",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "arkisfrontend",
+    "namespace": "arkis",
+    "creationTimestamp": null,
+    "labels": {
+      "service": "arkisfrontend"
+    }
+  },
+  "spec": {
+    "ports": [
+      {
+        "name": "44444",
+        "protocol": "TCP",
+        "port": 44444,
+        "targetPort": 80
+      }
+    ],
+    "selector": {
+      "service": "arkisfrontend"
+    }
+  }
+}

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Document Search</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!--
+        # A: Shared DBMS, Shared database, shared schema, shared table/collection
+        # B: Shared DBMS, Shared database, shared schema, one table/collection per tenant
+        # C: Shared DBMS, Shared database, one schema per tenant
+        # D: Shared DBMS, one database per tenant
+        # E: One DBMS per tenant
+    -->
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <script src="./index.js"></script>
+</head>
+<body class="container-fluid">
+    <div class="row">
+        <div class="col-md-6"><h1 id="title_arkis_id" style="color:pink;">ARKIS 3.0 - ADMIN</h1></div>
+        <br>
+        <div class="col-md-2"><label for="select_user">Welcome: </label><select disabled id="select_user" style="width: 100%"></select></div>
+        <div class="col-md-4">
+            <label for="select_multi_tenant">Option: </label><select disabled id="select_multi_tenant" style="width: 100%">
+                <option id="multitenant_a" value="A">A: Shared DBMS, Shared database, shared schema, shared table/collection</option>
+                <option id="multitenant_b" value="B">B: Shared DBMS, Shared database, shared schema, one table/collection per tenant</option>
+                <option id="multitenant_c" value="C">C: Shared DBMS, Shared database, one schema per tenant</option>
+                <option id="multitenant_d" value="D">D: Shared DBMS, one database per tenant</option>
+                <option id="multitenant_e" value="E">E: One DBMS per tenant</option>
+                <option id="multitenant_f" value="F">F: No user</option>
+                <option id="multitenant_g" value="G">Loading</option>
+            </select>
+        </div>
+    </div>
+    <div id="loader_id">
+        <div class="row">
+            <div class="col-md-5"></div>
+            <div class="col-md-2">
+                <div class="loader"></div>
+            </div>
+            <div class="col-md-5"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-5"></div>
+            <div class="col-md-2">
+               <!-- Migrating -->
+            </div>
+            <div class="col-md-5"></div>
+        </div>
+    </div>
+    <div id="no_loader_id">
+        <ul class="nav nav-tabs">
+          <li role="presentation" id="user" class="active"><a id="user_l" href="#">Users</a></li>
+
+            <!-- table for users, create, edit, delete, migrate and add data -->
+          <li role="presentation" id="detail"><a id="detail_l" href="#">Detail</a></li>
+          <li role="presentation" id="info"><a id="info_l" href="#">Info</a></li>
+        </ul>
+        <div id="user_id">
+            <br>
+            <table class="table" id="target_table_id" border="1">
+                <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th>Option</th>
+                    <th>Host</th>
+                    <th>Port</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div id="detail_id">
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-3"><h3 id="username_detail_id">Username</h3></div>
+            </div>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <input id="number_documents_id" placeholder="number of documents" class="text">
+                </div>
+                <div class="col-md-3">
+                    <button id="add_data_id">Add data</button><br>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <select id="select_multi_tenant_migrate" style="width: 100%">
+                        <option id="multitenant_a_migrate" value="A">A: Shared DBMS, Shared database, shared schema, shared table/collection</option>
+                        <option id="multitenant_b_migrate" value="B">B: Shared DBMS, Shared database, shared schema, one table/collection per tenant</option>
+                        <!-- <option id="multitenant_c_migrate" value="C">C: Shared DBMS, Shared database, one schema per tenant</option> -->
+                        <option id="multitenant_d_migrate" value="D">D: Shared DBMS, one database per tenant</option>
+                        <option id="multitenant_e_migrate" value="E">E: One DBMS per tenant</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <button id="migrate_id">Migrate</button><br>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <button id="delete_id">Delete</button>
+                </div>
+            </div>
+        </div>
+        <div id="info_id" class="row">
+            <div class="col-md-4"></div>
+            <br>
+            <div class="col-md-6">
+                <p>
+                    <ul>
+                        <li>See all the users.</li>
+                        <li>Delete a user.</li>
+                        <li>Add new generic data to one user.</li>
+                        <li>Migrate the data of one user between the different options of multi tenant.</li>
+                    </ul>
+                </p>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        </div>
+    </div>
+</body>
+</html>

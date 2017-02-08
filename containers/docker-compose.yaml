@@ -1,0 +1,29 @@
+version: '3'
+services:
+  arkismongo:
+    container_name: arkismongo
+    image: mongo:3.2
+    ports:
+      - "27017:27017"
+  arkisbackend:
+    container_name: arkisbackend
+    image: chumbo/arkisbackend:1.8.1
+    ports:
+      - "55555:55555"
+    environment:
+      - DATABASE_HOST=arkismongo
+      - DATABASE_PORT=27017
+      - CYCLOPS_ENDPOINT=35.160.33.120:4567
+    depends_on:
+      - arkismongo
+    links:
+      - arkismongo
+  arkisfrontend:
+    container_name: arkisfrontend
+    image: chumbo/arkisfrontend:1.8.1
+    ports:
+      - "44444:80"
+    depends_on:
+      - arkisbackend
+    links:
+      - arkisbackend

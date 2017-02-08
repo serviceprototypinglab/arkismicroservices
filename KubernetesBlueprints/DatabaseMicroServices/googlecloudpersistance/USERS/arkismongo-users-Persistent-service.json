@@ -1,0 +1,30 @@
+{
+  "kind": "Service",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "arkismongopersistentusers",
+    "namespace": "arkis",
+    "creationTimestamp": null,
+    "labels": {
+      "service": "arkismongopersistentusers"
+    }
+  },
+  "spec": {
+    "type": "NodePort",
+    "ports": [
+      {
+        "name": "arkismongopersistentusers",
+        "protocol": "TCP",
+        "port": 30009,
+        "targetPort": 27017,
+        "nodePort": 30009
+      }
+    ],
+    "selector": {
+      "service": "arkismongopersistentusers"
+    }
+  },
+  "status": {
+    "loadBalancer": {}
+  }
+}

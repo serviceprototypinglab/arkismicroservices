@@ -1,0 +1,48 @@
+{
+  "kind": "Deployment",
+  "apiVersion": "extensions/v1beta1",
+  "metadata": {
+    "name": "arkisbackend",
+    "namespace": "arkis",
+    "creationTimestamp": null
+  },
+  "spec": {
+    "replicas": 1,
+    "template": {
+      "metadata": {
+        "creationTimestamp": null,
+        "labels": {
+          "service": "arkisbackend"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "arkisbackend",
+            "image": "chumbo/arkisbackend:2.1",
+            "ports": [
+              {
+                "containerPort": 55555,
+                "protocol": "TCP"
+              }
+            ],
+            "env": [
+              {
+                "name": "DATABASE_HOST",
+                "value": "arkismongo"
+              },
+              {
+                "name": "DATABASE_PORT",
+                "value": "20000"
+              }
+            ],
+            "resources": {}
+          }
+        ],
+        "restartPolicy": "Always"
+      }
+    },
+    "strategy": {}
+  },
+  "status": {}
+}

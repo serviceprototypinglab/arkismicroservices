@@ -1,0 +1,24 @@
+{
+ "kind": "Service",
+ "apiVersion": "v1",
+ "spec": {
+    "type": "NodePort",
+    "selector": {
+      "service": "arkismigrate"
+    },
+    "ports": [{
+          "nodePort": 30003,
+          "name": "arkismigrate",
+          "targetPort": 55555,
+          "port": 55555,
+          "protocol": "TCP"
+        }]},
+ "metadata": {
+   "namespace": "arkis",
+   "creationTimestamp": null,
+   "name": "arkismigrate",
+   "labels": {
+     "service": "arkismigrate"
+   }
+ }
+}

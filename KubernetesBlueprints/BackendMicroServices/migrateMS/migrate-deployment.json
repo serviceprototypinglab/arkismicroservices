@@ -1,0 +1,43 @@
+{
+  "status": {},
+  "kind": "Deployment",
+  "apiVersion": "extensions/v1beta1",
+  "spec": {
+    "strategy": {},
+    "template": {
+      "spec":
+      {
+        "containers":
+      [
+        {
+        "image": "chumbo/arkismigrate:3.0",
+        "name": "arkismigrate",
+        "ports":
+        [
+          {
+           "protocol": "TCP",
+           "containerPort": 55555
+          }
+        ],
+          "resources": {}
+        }
+      ],
+        "restartPolicy": "Always"
+      },
+      "metadata":
+      {
+        "creationTimestamp": null,
+        "labels":
+        {
+          "service": "arkismigrate"
+        }
+      }
+    },
+    "replicas": 1
+  },
+  "metadata": {
+    "namespace": "arkis",
+    "creationTimestamp": null,
+    "name": "arkismigrate"
+  }
+}

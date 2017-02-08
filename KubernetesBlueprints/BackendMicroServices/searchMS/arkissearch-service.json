@@ -1,0 +1,27 @@
+{
+  "kind": "Service",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "arkissearch",
+    "namespace": "arkis",
+    "creationTimestamp": null,
+    "labels": {
+      "service": "arkissearch"
+    }
+  },
+  "spec": {
+    "ports": [
+      {
+        "name": "55555",
+        "protocol": "TCP",
+        "port": 55555,
+        "targetPort": 55555,
+        "nodePort": 30004
+      }
+    ],
+    "selector": {
+      "service": "arkissearch"
+    },
+    "type": "NodePort"
+  }
+}

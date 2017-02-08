@@ -1,0 +1,28 @@
+{
+  "kind": "Service",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "arkismongo",
+    "namespace": "arkis",
+    "creationTimestamp": null,
+    "labels": {
+      "service": "arkismongo"
+    }
+  },
+  "spec": {
+    "ports": [
+      {
+        "name": "arkismongo",
+        "protocol": "TCP",
+        "port": 20000,
+        "targetPort": 27017
+      }
+    ],
+    "selector": {
+      "service": "arkismongo"
+    }
+  },
+  "status": {
+    "loadBalancer": {}
+  }
+}
