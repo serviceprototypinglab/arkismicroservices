@@ -5,63 +5,63 @@ created using a microservice architecture.
 
 ## Microservice architecture
 
-  Each microservice is created using a docker image container.
-  You can see the code inside the folder container. 
-  All the images are in the public docker hub repository: [chumbo](https://hub.docker.com/u/chumbo/)
+  - Each microservice is created using a docker image container.
+  - You can see the code inside the folder container. 
+  - All the images are in the public docker hub repository: [chumbo](https://hub.docker.com/u/chumbo/)
   
 ### Frontend microservices
 
 #### Login
 
-port_login: 32000
-UI for the login web page.
-You can try to login and create a new user.
+- port_login: 32000
+- UI for the login web page.
+- You can try to login or create a new user.
     
 #### Users
 
-port_users: 32000
-UI for the users web page.
-You can manage all the documents of these user.(create, delete, search, ...)
+- port_users: 32000
+- UI for the users web page.
+- You can manage all the documents of these user.(create, delete, search, ...)
     
 #### Admin
 
-port_login: 32000
-Admin UI web page.
-You can see users, delete users, add new generic documents, migrate between the different multi-tenant options.
+- port_login: 32000
+- Admin UI web page.
+- You can see users, delete users, add new generic documents, migrate between the different multi-tenant options.
 
 
 ### Backend microservices
 
 #### Documents
 
-port_documents: 30000
-CRUD of documents
+- port_documents: 30000
+- CRUD of documents
 
 #### Search
 
-port_search: 30004
-Full text search in the documents of one user.
+- port_search: 30004
+- Full text search in the documents of one user.
 
 #### Migrate
 
-port_migrate: 30003
-Move the documents of one user to a different multi-tenant option.
+- port_migrate: 30003
+- Move the documents of one user to a different multi-tenant option.
 
 #### Data
 
-port_data: 30002
-For add generic documents to one user.
+- port_data: 30002
+- For add generic documents to one user.
 
 #### Users
 
-port_users: 30001
-CRUD users.
+- port_users: 30001
+- CRUD users.
 
 ### Database microservices
 
-Persistent deployment for documents and users.
-The container image is the official mongo image.
-The database for users is running in the port 30009.
+- Persistent deployment for documents and users.
+- The container image is the official mongo image.
+- The database for users is running in the port 30009.
  
 #### Documents
 
