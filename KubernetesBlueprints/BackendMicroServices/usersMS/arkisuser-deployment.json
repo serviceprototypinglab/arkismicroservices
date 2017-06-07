@@ -19,7 +19,7 @@
         "containers": [
           {
             "name": "arkisuser",
-            "image": "chumbo/arkisusers:3.0",
+            "image": "chumbo/arkisusers:3.1",
             "ports": [
               {
                 "containerPort": 55555,

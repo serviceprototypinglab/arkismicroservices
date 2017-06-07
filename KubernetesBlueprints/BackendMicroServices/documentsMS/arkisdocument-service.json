@@ -16,7 +16,7 @@
         "protocol": "TCP",
         "port": 55555,
         "targetPort": 55555,
-        "nodePort": 30000
+        "nodePort": 31999
       }
     ],
     "selector": {

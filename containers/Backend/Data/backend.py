@@ -180,7 +180,7 @@ def add_data(user, option, limit):
             port = 30008
         else:
             host = 'arkismongopersistent' + str(user)
-            port = 30010 + int(user)
+            port = 30010
         conn = get_connection1(host, port)
         db = get_database1(conn, option, user)
         coll = get_collection1(db, 'documents', option, user)

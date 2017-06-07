@@ -66,7 +66,6 @@ def get_database_port():
 
 
 def get_connection():
-
     host = get_database_host()
     port = get_database_port()
     # host = '104.198.249.229'
@@ -259,8 +258,10 @@ def post():
         max_index = get_max_row_id()
         if max_index != -1:
             other_id = max_index + 1
+            role = 'user'
         else:
-            return JSONEncoder1().encode([{"error": "No users"}])
+            other_id = 1
+            role = 'admin'
         user = other_id
         tenant = other_id
         if option == 'E':
@@ -290,7 +291,7 @@ def post():
                     'host': host,
                     'port': port,
                     'pass': aux_pass,
-                    'role': 'user'}
+                    'role': role}
         conn = get_connection()
         db = get_database(conn)
         get_collection(db, 'users').insert_one(aux_user)
