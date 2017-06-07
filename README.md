@@ -1,12 +1,11 @@
-# Cloud native ARKIS Prototype
+# Cloud-native ARKIS Prototype
 
-It is a [cloud native document management system](https://blog.zhaw.ch/icclab/cloud-native-document-management/)
-created using a microservice architecture.  
+The ARKIS microservices prototype is a [cloud-native document management system](https://blog.zhaw.ch/icclab/cloud-native-document-management/) created using a cloud-native architecture within the Service Prototyping Lab at Zurich University of Applied Sciences. The design criteria the software adheres to are elastic scalability and resilience achieved through managed composite microservices and isolation flexibility achieved through runtime-configurable multi-tenancy models. The implementation consists of Docker containers running atop Kubernetes. (Our blog posts also inform about how to achieve similar setups with docker-compose and Vamp.)
 
 ## Microservice architecture
 
-  - Each microservice is created using a docker image container.
-  - You can see the code inside the folder container. 
+  - Each microservice is instantiated using a docker container image; 8 in total plus one for the database (external image).
+  - You can see the code inside the folder 'containers'.
   - All the images are in the public docker hub repository: [chumbo](https://hub.docker.com/u/chumbo/)
   
 ### Frontend microservices
@@ -31,6 +30,8 @@ created using a microservice architecture.
 
 
 ### Backend microservices
+
+Note: All backends are implemented with Python using the Bottle web service framework.
 
 #### Documents
 
@@ -155,4 +156,5 @@ kubernetes cluster but, of course, without persistent data.
 
 1. Create automatically the microservice for multi-tenant option E.
 2. Create blueprints for docker-swarm.
-3. Create a microservice using .netCore
+3. Create a microservice using .netCore.
+4. RAML/Swagger APIs for discoverability.
