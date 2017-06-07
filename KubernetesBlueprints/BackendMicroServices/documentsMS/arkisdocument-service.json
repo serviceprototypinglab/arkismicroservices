@@ -12,10 +12,10 @@
   "spec": {
     "ports": [
       {
-        "name": "55555",
+        "name": "50003",
         "protocol": "TCP",
-        "port": 55555,
-        "targetPort": 55555,
+        "port": 50003,
+        "targetPort": 50003,
         "nodePort": 31999
       }
     ],

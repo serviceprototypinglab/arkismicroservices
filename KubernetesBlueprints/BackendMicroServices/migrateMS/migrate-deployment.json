@@ -10,13 +10,13 @@
         "containers":
       [
         {
-        "image": "chumbo/arkismigrate:3.0",
+        "image": "chumbo/arkismigrate:3.1.1",
         "name": "arkismigrate",
         "ports":
         [
           {
            "protocol": "TCP",
-           "containerPort": 55555
+           "containerPort": 50002
           }
         ],
           "resources": {}

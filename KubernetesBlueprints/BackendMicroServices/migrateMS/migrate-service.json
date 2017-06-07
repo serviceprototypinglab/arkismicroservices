@@ -9,8 +9,8 @@
     "ports": [{
           "nodePort": 30003,
           "name": "arkismigrate",
-          "targetPort": 55555,
-          "port": 55555,
+          "targetPort": 50002,
+          "port": 50002,
           "protocol": "TCP"
         }]},
  "metadata": {
