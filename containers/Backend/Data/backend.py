@@ -200,4 +200,4 @@ def add_data(user, option, limit):
         return JSONEncoder1().encode([{"error": str(e)}])
     return JSONEncoder1().encode([{"error": "No error"}])
 
-app.run(host='0.0.0.0', port=55555, debug=True)
+app.run(host='0.0.0.0', port=50004, debug=True)
