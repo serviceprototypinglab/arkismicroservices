@@ -1,0 +1,38 @@
+{
+  "kind": "Deployment",
+  "apiVersion": "extensions/v1beta1",
+  "metadata": {
+    "name": "arkismongopersistent7",
+    "namespace": "arkis",
+    "creationTimestamp": null
+  },
+  "spec": {
+    "replicas": 1,
+    "template": {
+      "metadata": {
+        "creationTimestamp": null,
+        "labels": {
+          "service": "arkismongopersistent7"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "arkismongopersistent7",
+            "image": "mongo",
+            "ports": [
+              {
+                "containerPort": 27017,
+                "protocol": "TCP"
+              }
+            ],
+            "resources": {}
+          }
+        ],
+        "restartPolicy": "Always"
+      }
+    },
+    "strategy": {}
+  },
+  "status": {}
+}

@@ -10,6 +10,10 @@ fi
 kubectl create -f namespace.yaml
 # Create databases MS
 kubectl create -f ./DatabaseMicroServices/nopersistance/OPTIONA/
+kubectl create -f ./DatabaseMicroServices/nopersistance/OPTIONB/
+kubectl create -f ./DatabaseMicroServices/nopersistance/OPTIONC/
+kubectl create -f ./DatabaseMicroServices/nopersistance/OPTIOND/
+kubectl create -f ./DatabaseMicroServices/nopersistance/OPTIONE_10/
 kubectl create -f ./DatabaseMicroServices/nopersistance/USERS/
 # Create backend MS
 kubectl create -f ./BackendMicroServices/dataMS/

@@ -1,0 +1,30 @@
+{
+  "kind": "Service",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "arkismongopersistent7",
+    "namespace": "arkis",
+    "creationTimestamp": null,
+    "labels": {
+      "service": "arkismongopersistent7"
+    }
+  },
+  "spec": {
+    "type": "NodePort",
+    "ports": [
+      {
+        "name": "arkismongopersistent7",
+        "protocol": "TCP",
+        "port": 30017,
+        "targetPort": 27017,
+        "nodePort": 30017
+      }
+    ],
+    "selector": {
+      "service": "arkismongopersistent7"
+    }
+  },
+  "status": {
+    "loadBalancer": {}
+  }
+}

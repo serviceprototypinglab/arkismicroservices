@@ -18,13 +18,13 @@ The ARKIS microservices prototype is a [cloud-native document management system]
     
 #### Users
 
-- port_users: 32000
+- port_users: 32001
 - UI for the users web page.
 - You can manage all the documents of these user.(create, delete, search, ...)
     
 #### Admin
 
-- port_login: 32000
+- port_login: 32002
 - Admin UI web page.
 - You can see users, delete users, add new generic documents, migrate between the different multi-tenant options.
 
@@ -35,7 +35,7 @@ Note: All backends are implemented with Python using the Bottle web service fram
 
 #### Documents
 
-- port_documents: 30000
+- port_documents: 31999
 - CRUD of documents
 
 #### Search
@@ -58,7 +58,7 @@ Note: All backends are implemented with Python using the Bottle web service fram
 - port_users: 30001
 - CRUD users.
 
-### Database microservices
+### Database micro-services
 
 - Persistent deployment for documents and users.
 - The container image is the official mongo image.
@@ -119,34 +119,44 @@ Useful endpoints for the API REST:
 ### Create
 
 0. Clone this repository.
-1. Create a [kubernetes cluster in google cloud](https://cloud.google.com/container-engine/).
-2. Create the next [persistent disks](https://cloud.google.com/compute/docs/disks/add-persistent-disk#create_disk ) in the same zone that you have your cluster:
+1. Install [kubectl](https://kubernetes.io/docs/user-guide/kubectl-overview/) 
+
+#### Google persistance 
+2. Create a [kubernetes cluster in google cloud](https://cloud.google.com/container-engine/).
+3. Create the next [persistent disks](https://cloud.google.com/compute/docs/disks/add-persistent-disk#create_disk ) in the same zone that you have your cluster:
  - a: mongodb-disk-a
  - b: mongodb-disk-b
  - c: mongodb-disk-c
  - d: mongodb-disk-d
  - e: mongodb-disk-(number of tenant) where number of tenant belong to {0,1, ... ,9}
  - users: disk-mongo-shared-users
-3. Install [kubectl](https://kubernetes.io/docs/user-guide/kubectl-overview/) 
 4. Run the script: create.sh 
-
-Until here, you have running ARKIS 3.0.
-Now, you can add users and documents using the Admin UI or the API REST.
-Also, you have available the User UI to start to use the prototype. 
-
 5. If you want create more tenants with the multitenant option E:
     - Create the persistent: disk mongodb-disk-(number of tenant)
     - Create the microservice:
         - cd KubernetesBlueprints/DatabaseMicroServices/googlecloudpersistance/OPTIONE
         - change the nodePort to 30010 + number of tenant
         - run: kubectl create -f .
+        
+#### No persistance 
+2. Run the script: create-nopersistance-a.sh
 
-Note: If you delete all the persistent disk in the persistent deployments (database microservice),
-you have a prototype independently to the google cloud provider and you can run it in any 
-kubernetes cluster but, of course, without persistent data.  
+### Use
+Until here, you have running ARKIS 3.0.
+Now, you can add users and documents using the Admin UI or the API REST.
+The first user that you create will be the admin. The rest are users of the app.
+From the Admin view you can add documents to the users.
+From the User view you can manage your documents.
+
 
 ### Delete
+#### No persistance
+ 1. 
+    - If you want keep your cluster: Run the script: delete-nopersistance-a.sh
+    - If you don't want keep your cluster: Just delete your cluster 
+2. Delete all the persistent disk.
 
+#### Google persistance  
 1. 
     - If you want keep your cluster: Run the script: delete.sh
     - If you don't want keep your cluster: Just delete your cluster 
