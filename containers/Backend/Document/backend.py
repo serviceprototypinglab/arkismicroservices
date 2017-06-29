@@ -25,14 +25,13 @@ class EnableCors(object):
             # print context
             # set CORS headers
             response.headers['Access-Control-Allow-Origin'] = '*'
-            response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, OPTIONS, DELETE'
+            response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE'
             response.headers[
                 'Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
             response.headers['Content-type'] = 'application/json'
             if bottle.request.method != 'OPTIONS':
                 # actual request; reply with the actual response
                 return fn(*args, **kwargs)
-
         return _enable_cors
 
 
@@ -136,6 +135,23 @@ def start():
     return JSONEncoder1().encode(res)
 
 
+@bottle.route('/documents/<user>/<option>', method='OPTIONS')
+def post1(user, option):
+    pass
+
+
+@bottle.route('/documents/<user>/<option>/<other_id>', method='OPTIONS')
+def post2(user, option, other_id):
+    pass
+
+@bottle.route('/documents/<user>/<option>/last', method='OPTIONS')
+def post3(user, option):
+    pass
+
+@bottle.route('/documents/<user>/<option>/lim/<lim>', method='OPTIONS')
+def post4(user, option, lim):
+    pass
+
 @app.route('/connection/<user>/<option>')
 def connection(user, option):
     user = int(user)
@@ -206,16 +222,25 @@ def get_all(user, option, lim):
             r = get_collection(option, db, user, 'documents').find({"user": user}).limit(10000)
         else:
             r = get_collection(option, db, user, 'documents').find({"user": user}).limit(int(lim))
+        res1 = []
+        if r:
+            for a in r:
+                res1.append(a)
+        res = JSONEncoder1().encode(res1)
+        response.status = 200
         conn.close()
-        res = []
-        for a in r:
-            res.append(a)
     except Exception, e:
         print e
-        error_str = "ERROR LOOKING DOCUMENTS FOR USER " + str(user) + " WITH MT OPTION " + str(option)
+        error_str = "ERROR LOOKING DOCUMENTS FOR USER " + str(user) \
+                    + " WITH MT OPTION " + str(option) \
+                    + " ERROR " + str(e)
         a = {"error": error_str}
-        res = [a]
-    return JSONEncoder1().encode(res)
+        res = JSONEncoder1().encode(a)
+        response.status = 500
+
+    response.content_type = 'application/json'
+    response.body = res
+    return response
 
 
 @app.get('/documents/<user>/<option>/last')
@@ -226,11 +251,16 @@ def get_last(user, option):
         db = get_database(conn, option, user)
         r = get_collection(option, db, user, 'documents').find_one(sort=[("other_id", -1)])
         conn.close()
+        response.status = 200
     except Exception, e:
         print e
         error_str = "ERROR LOOKING DOCUMENTS FOR USER " + str(user) + " WITH MT OPTION " + str(option)
         r = {"error": error_str}
-    return JSONEncoder1().encode(r)
+        response.status = 500
+    res = JSONEncoder1().encode(r)
+    response.content_type = 'application/json'
+    response.body = res
+    return response
 
 
 @app.get('/documents/<user>/<option>/<other_id>')
@@ -262,13 +292,15 @@ def get_max_row_id(user, option):
 @app.post('/documents/<user>/<option>')
 def post(user, option):
     try:
+        data = request.json
         user = int(user)
-        blob = request.forms.get('blob')
-        number = int(request.forms.get('number'))
-        name = request.forms.get('name')
-        title = request.forms.get('title')
+        blob = data.get('blob')
+        number = int(data.get('number'))
+        name = data.get('name')
+        title = data.get('title')
         path = '/data/blobs/arkis_' + option + '_' + str(user) + '_' + name + '.txt'
         max_index = get_max_row_id(user, option)
+        #max_index = 2
         if max_index == -1:
             return JSONEncoder1().encode([{"error": "no index"}])
         else:
@@ -283,19 +315,25 @@ def post(user, option):
                     'tenant': user,
                     'tenant_option': option,
                     'path': path}
+
         conn = get_connection(user, option)
         db = get_database(conn, option, user)
         get_collection(option, db, user, 'documents').insert_one(aux_blob)
         conn.close()
     except Exception, e:
         return JSONEncoder1().encode([{"error": str(e)}])
-    return JSONEncoder1().encode([aux_blob])
+    res = JSONEncoder1().encode(aux_blob)
+    response.content_type = 'application/json'
+    response.status = 200
+    response.body = res
+    return response
 
 
 @app.put('/documents/<user>/<option>/<other_id>')
 def put(user, option, other_id):
     r = None
     try:
+        data = request.json
         try:
             user = int(user)
             conn = get_connection(user, option)
@@ -303,10 +341,10 @@ def put(user, option, other_id):
             r = get_collection(option, db, user, 'documents').find_one({"other_id": int(other_id), "user": user})
         except Exception, e:
             return JSONEncoder1().encode([{"error": str(e)}])
-        aux_blob = request.forms.get('blob')
-        aux_number = request.forms.get('number')
-        aux_name = request.forms.get('name')
-        aux_title = request.forms.get('title')
+        aux_blob = data.get('blob')
+        aux_number = data.get('number')
+        aux_name = data.get('name')
+        aux_title = data.get('title')
         aux_path = None
         if aux_title:
             r['title'] = aux_title
@@ -322,12 +360,17 @@ def put(user, option, other_id):
             r['blob'] = aux_blob
         get_collection(option, db, user, 'documents').update({"other_id": int(other_id)}, r)
         conn.close()
+        res = JSONEncoder1().encode(r)
+        response.status = 200
     except Exception, e:
+        response.status = 500
         if r:
-            return JSONEncoder1().encode([{"error": str(e)}, r])
+            res = JSONEncoder1().encode([{"error": str(e)}, r])
         else:
-            return JSONEncoder1().encode([{"error": str(e)}])
-    return JSONEncoder1().encode(r)
+            res = JSONEncoder1().encode([{"error": str(e)}])
+    response.content_type = 'application/json'
+    response.body = res
+    return response
 
 
 @app.post('/put/documents/<user>/<option>/<other_id>')
@@ -376,10 +419,17 @@ def delete(user, option, other_id):
         db = get_database(conn, option, user)
         get_collection(option, db, user, 'documents').delete_one({"other_id": int(other_id), "user": user})
         conn.close()
+        res = JSONEncoder1().encode({"id": other_id})
+        response.status = 200
     except Exception, e:
         print e
-        return JSONEncoder1().encode([{"error": str(e)}])
-    return JSONEncoder1().encode([{"res": "Deleted"}])
+        response.status = 500
+        res = JSONEncoder1().encode({"error": str(e)})
+
+    response.content_type = 'application/json'
+
+    response.body = res
+    return response
 
 
 @app.get('/delete/documents/<user>/<option>/<other_id>')

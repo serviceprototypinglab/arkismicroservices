@@ -19,7 +19,7 @@
         "containers": [
           {
             "name": "arkisdocument",
-            "image": "chumbo/arkisdocument:3.1.1",
+            "image": "chumbo/arkisdocument:3.3",
             "ports": [
               {
                 "containerPort": 50003,

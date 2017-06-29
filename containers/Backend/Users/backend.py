@@ -100,6 +100,17 @@ def start():
     return JSONEncoder1().encode(res)
 
 
+
+@bottle.route('/users', method='OPTIONS')
+def post1():
+    pass
+
+
+@bottle.route('/users/<user>', method='OPTIONS')
+def post2(user):
+    pass
+
+
 @app.get('/len')
 def get_users():
     try:
@@ -251,10 +262,11 @@ def get_max_row_id():
 @app.post('/users')
 def post():
     try:
-        option = request.forms.get('option')
-        aux_pass = int(request.forms.get('pass'))
-        path = request.forms.get('path')
-        username = request.forms.get('username')
+        data = request.json
+        option = data.get('option')
+        aux_pass = int(data.get('pass'))
+        path = data.get('path')
+        username = data.get('username')
         max_index = get_max_row_id()
         if max_index != -1:
             other_id = max_index + 1
@@ -296,9 +308,16 @@ def post():
         db = get_database(conn)
         get_collection(db, 'users').insert_one(aux_user)
         conn.close()
+        res = JSONEncoder1().encode(aux_user)
+
+        response.status = 200
     except Exception, e:
-        return JSONEncoder1().encode([{"error": str(e)}])
-    return JSONEncoder1().encode([aux_user])
+        response.status = 500
+        res = JSONEncoder1().encode({"error": str(e)})
+
+    response.content_type = 'application/json'
+    response.body = res
+    return response
 
 
 @app.put('/users/<user>')
@@ -306,17 +325,21 @@ def put(user):
     r = None
     try:
         try:
+            data = request.json
             user = int(user)
             conn = get_connection()
             db = get_database(conn)
             r = get_collection(db, 'users').find_one({"user": int(user)})
         except Exception, e:
             return JSONEncoder1().encode([{"error": str(e)}])
-        option = request.forms.get('option')
-        aux_pass = request.forms.get('pass')
-        port = request.forms.get('port')
-        host = request.forms.get('host')
-        path = request.forms.get('path')
+        username = data.get('username')
+        option = data.get('option')
+        aux_pass = data.get('pass')
+        port = data.get('port')
+        host = data.get('host')
+        path = data.get('path')
+        if username:
+            r['username'] = username
         if option:
             r['option'] = option
         if aux_pass:
@@ -329,12 +352,15 @@ def put(user):
             r['path'] = path
         get_collection(db, 'users').update({"user": int(user)}, r)
         conn.close()
+        res = JSONEncoder1().encode(r)
+        response.status = 200
     except Exception, e:
-        if r:
-            return JSONEncoder1().encode([{"error": str(e)}, r])
-        else:
-            return JSONEncoder1().encode([{"error": str(e)}])
-    return JSONEncoder1().encode(r)
+        response.status = 500
+        res = JSONEncoder1().encode([{"error": str(e)}])
+
+    response.content_type = 'application/json'
+    response.body = res
+    return response
 
 
 @app.post('/put/users/<user>')
@@ -381,10 +407,15 @@ def delete(user):
         db = get_database(conn)
         get_collection(db, 'users').delete_one({"user": int(user)})
         conn.close()
+        response.status = 200
+        res = JSONEncoder1().encode({"id": int(user)})
     except Exception, e:
         print e
-        return JSONEncoder1().encode([{"error": str(e)}])
-    return JSONEncoder1().encode([{"res": "Deleted"}])
+        res = JSONEncoder1().encode({"error": str(e)})
+        response.status = 500
+    response.body = res
+    response.content_type = 'application/json'
+    return response
 
 
 @app.get('/delete/users/<user>')
