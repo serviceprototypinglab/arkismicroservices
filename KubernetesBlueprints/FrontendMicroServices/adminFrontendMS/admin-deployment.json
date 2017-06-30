@@ -19,7 +19,7 @@
         "containers": [
           {
             "name": "arkisadminfrontend",
-            "image": "chumbo/arkisadminfrontend:3.0",
+            "image": "chumbo/arkisadminfrontend:3.3",
             "ports": [
               {
                 "containerPort": 80,

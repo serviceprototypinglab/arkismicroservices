@@ -1,6 +1,6 @@
 $(document).ready(function(){
     var host = document.location.hostname;
-    var port_documents = 30000;
+    var port_documents = 31999;
     var port_users = 30001;
     var port_data = 30002;
     var port_migrate = 30003;
