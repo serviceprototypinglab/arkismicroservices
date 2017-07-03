@@ -1,0 +1,791 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Document management API. You can create, read, update and delete document for different tenants or search a pattern in a document. The API is developed with a microservices architecture following the principes of a cloud native application. This offers different multitenency options to persistante the documents. Also you have the option to add generic documents to the system and migrate the data between the different multitenant options. In addition it is using Kong (API Gateway) to add extra functionalities. ",
+    "version": "3.3",
+    "title": "ARKIS MICROSERVICES API",
+    "termsOfService": "https://github.com/serviceprototypinglab/arkismicroservices",
+    "contact": {
+      "email": "ramz@zhaw.ch"
+    },
+    "license": {
+      "name": "Arkis license",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "192.168.99.100:30917",
+  "tags": [
+    {
+      "name": "documents",
+      "description": "Operations about documents"
+    },
+    {
+      "name": "users",
+      "description": "Create, read, update and delete users"
+    },
+    {
+      "name": "search",
+      "description": "TODO. Search a pattern in a document"
+    },
+    {
+      "name": "data",
+      "description": "TODO. Add random documents to a user"
+    },
+    {
+      "name": "migrate",
+      "description": "TODO. Migrate the documents between differents multi tenancy models"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/documents/{user}/{option}": {
+      "post": {
+        "tags": [
+          "documents"
+        ],
+        "summary": "Add a new document",
+        "description": "Add a new document for the user specificed and saved using the multitenant option",
+        "operationId": "addDocument",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "path",
+            "description": "user id (user.user)",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "option",
+            "in": "path",
+            "description": "MT option: A, B, C, D or E",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Host",
+            "in": "header",
+            "description": "documents MS -> documents",
+            "required": true,
+            "type": "string",
+            "default": "documents"
+          },
+          {
+            "in": "body",
+            "name": "raw",
+            "description": "Document object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DocumentPost"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Document"
+            }
+          }
+        }
+      }
+    },
+    "/documents/{user}/{option}/{other_id}": {
+      "get": {
+        "tags": [
+          "documents"
+        ],
+        "summary": "Finds documents by id",
+        "description": "Return the document with id: document_id",
+        "operationId": "finddocumentsById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "path",
+            "description": "user id (user.user)",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "option",
+            "in": "path",
+            "description": "MT option: A, B, C, D or E",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "other_id",
+            "in": "path",
+            "description": "document id (document.other_id)",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "Host",
+            "in": "header",
+            "description": "documents MS -> documents",
+            "required": true,
+            "type": "string",
+            "default": "documents"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Document"
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "documents"
+        ],
+        "summary": "Finds documents by status",
+        "description": "Multiple status values can be provided with comma separated strings",
+        "operationId": "documentPut",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "path",
+            "description": "user id (user.user)",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "option",
+            "in": "path",
+            "description": "MT option: A, B, C, D or E",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "other_id",
+            "in": "path",
+            "description": "document id (document.other_id)",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "Host",
+            "in": "header",
+            "description": "documents MS -> documents",
+            "required": true,
+            "type": "string",
+            "default": "documents"
+          },
+          {
+            "in": "body",
+            "name": "raw",
+            "description": "Document object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DocumentPost"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Document"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "documents"
+        ],
+        "summary": "Delete a document by id",
+        "description": "Delete a document by id",
+        "operationId": "documentDelete",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "path",
+            "description": "user id (user.user)",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "option",
+            "in": "path",
+            "description": "MT option: A, B, C, D or E",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "other_id",
+            "in": "path",
+            "description": "document id (document.other_id)",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "Host",
+            "in": "header",
+            "description": "documents MS -> documents",
+            "required": true,
+            "type": "string",
+            "default": "documents"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Document"
+              }
+            }
+          },
+          "500": {
+            "description": "error",
+            "schema": {
+              "$ref": "#definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/documents/{user}/{option}/lim/{lim}": {
+      "get": {
+        "tags": [
+          "documents"
+        ],
+        "summary": "Find the last lim documents",
+        "description": "Find the last lim documents",
+        "operationId": "findLimDocuments",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "path",
+            "description": "user id (user.user)",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "option",
+            "in": "path",
+            "description": "MT option: A, B, C, D or E",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "lim",
+            "in": "path",
+            "description": "number of documents",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "Host",
+            "in": "header",
+            "description": "documents MS -> documents",
+            "required": true,
+            "type": "string",
+            "default": "documents"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Document"
+              }
+            }
+          },
+          "500": {
+            "description": "error",
+            "schema": {
+              "$ref": "#definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/documents/{user}/{option}/last": {
+      "get": {
+        "tags": [
+          "documents"
+        ],
+        "summary": "Return the last document added for the user",
+        "description": "Return the last document added for the user",
+        "operationId": "getLast",
+        "consumes": [
+          "application/json",
+          "Access-Control-Allow-Headers: Content-Type, api_key, Authorization"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "path",
+            "description": "user id (user.user)",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "option",
+            "in": "path",
+            "description": "MT option: A, B, C, D or E",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Host",
+            "in": "header",
+            "description": "documents MS -> documents",
+            "required": true,
+            "type": "string",
+            "default": "documents"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Document"
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          },
+          "500": {
+            "description": "error",
+            "schema": {
+              "$ref": "#definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get all the users",
+        "description": "Get all the users",
+        "operationId": "getUsers",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Host",
+            "in": "header",
+            "description": "User MS -> users",
+            "required": true,
+            "type": "string",
+            "default": "users"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          },
+          "500": {
+            "description": "error",
+            "schema": {
+              "$ref": "#definitions/Error"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Create a user.",
+        "description": "Create a user",
+        "operationId": "CreateUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "raw",
+            "description": "User object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserPost"
+            }
+          },
+          {
+            "name": "Host",
+            "in": "header",
+            "description": "User MS -> users",
+            "required": true,
+            "type": "string",
+            "default": "users"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          },
+          "500": {
+            "description": "error",
+            "schema": {
+              "$ref": "#definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/users/{user}": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get the user: 'user'",
+        "description": "",
+        "operationId": "getUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "path",
+            "description": "user id (user.user)",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "Host",
+            "in": "header",
+            "description": "User MS -> users",
+            "required": true,
+            "type": "string",
+            "default": "users"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          },
+          "500": {
+            "description": "error",
+            "schema": {
+              "$ref": "#definitions/Error"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Update a user.",
+        "description": "Update a user",
+        "operationId": "UpdateUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "path",
+            "description": "user id (user.user)",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "raw",
+            "description": "User object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserPost"
+            }
+          },
+          {
+            "name": "Host",
+            "in": "header",
+            "description": "User MS -> users",
+            "required": true,
+            "type": "string",
+            "default": "users"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          },
+          "500": {
+            "description": "error",
+            "schema": {
+              "$ref": "#definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Delete a user.",
+        "description": "Delete a user",
+        "operationId": "DeleteUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "path",
+            "description": "user id (user.user)",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "Host",
+            "in": "header",
+            "description": "User MS -> users",
+            "required": true,
+            "type": "string",
+            "default": "users"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          },
+          "500": {
+            "description": "error",
+            "schema": {
+              "$ref": "#definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Error": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        }
+      }
+    },
+    "Document": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "other_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "tenant_option": {
+          "type": "integer",
+          "format": "int32",
+          "description": "MT option: A, B, C, D or E"
+        },
+        "blob": {
+          "type": "string"
+        },
+        "user": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "number": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "title": {
+          "type": "string"
+        },
+        "port": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "path": {
+          "type": "string"
+        }
+      }
+    },
+    "DocumentPost": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "blob": {
+          "type": "string"
+        },
+        "number": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "title": {
+          "type": "string"
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "other_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "username": {
+          "type": "string"
+        },
+        "option": {
+          "type": "string",
+          "description": "MT option: A, B, C, D or E"
+        },
+        "host": {
+          "type": "string"
+        },
+        "user": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pass": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "path": {
+          "type": "string"
+        },
+        "port": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "tenant": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "role": {
+          "type": "string",
+          "description": "admin or user"
+        }
+      }
+    },
+    "UserPost": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "option": {
+          "type": "string",
+          "description": "MT option: A, B, C, D or E"
+        },
+        "pass": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Arkis Microservices",
+    "url": "https://github.com/serviceprototypinglab/arkismicroservices"
+  }
+}
