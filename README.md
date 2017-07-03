@@ -154,7 +154,7 @@ From the User view you can manage your documents.
  1. 
     - If you want keep your cluster: Run the script: delete-nopersistance-a.sh
     - If you don't want keep your cluster: Just delete your cluster 
-2. Delete all the persistent disk.
+
 
 #### Google persistance  
 1. 
@@ -164,7 +164,5 @@ From the User view you can manage your documents.
 
 ## Next steps
 
-1. Create automatically the microservice for multi-tenant option E.
+1. Create automatically the persistent disk for the multi-tenancy option: E.
 2. Create blueprints for docker-swarm.
-3. Create a microservice using .netCore.
-4. RAML/Swagger APIs for discoverability.
