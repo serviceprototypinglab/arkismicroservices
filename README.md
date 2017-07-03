@@ -2,12 +2,16 @@
 
 The ARKIS microservices prototype is a [cloud-native document management system](https://blog.zhaw.ch/icclab/cloud-native-document-management/) created using a cloud-native architecture within the Service Prototyping Lab at Zurich University of Applied Sciences. The design criteria the software adheres to are elastic scalability and resilience achieved through managed composite microservices and isolation flexibility achieved through runtime-configurable multi-tenancy models. The implementation consists of Docker containers running atop Kubernetes. (Our blog posts also inform about how to achieve similar setups with docker-compose and Vamp.)
 
+![image](./diagrams/big-picture.png)
+
 ## Microservice architecture
 
   - Each microservice is instantiated using a docker container image; 8 in total plus one for the database (external image).
   - You can see the code inside the folder 'containers'.
   - All the images are in the public docker hub repository: [chumbo](https://hub.docker.com/u/chumbo/)
   
+
+ 
 ### Frontend microservices
 
 #### Login
@@ -113,7 +117,20 @@ Useful endpoints for the API REST:
 ### Migrate
 
   - GET: host:port_migrate/migrate/(user)/(option)
-  
+
+## [OPEN API specification](https://github.com/OAI/OpenAPI-Specification)
+
+We have created an OpenAPI specification file of this API.
+In this file we cover in detail the two main microservices: Documents and Users.
+You can use the swagger.json file to see all the information easly using the friendly [swagger ui](https://swagger.io/swagger-ui/).
+
+## [Kong](https://getkong.org/)
+
+You can deploy the Kong files in this repository to have Kong in Kubernetes (no persistance). Or use the official one if your kubernetes cluster is in Google cloud.
+Now for add each microservices to Kong you must use the names: documents, search, data, migrate and users. To use the API with Kong
+you must use the Kong endpoint with the same path that are described before it and with the name of the microservices as a header parameter.
+ Example: curl -X GET "http:// + endpoint Kong +/documents/2/A/last" -H  "accept: application/json" -H  "Host: documents"
+ 
 ## Tutorial
 
 ### Create
