@@ -183,3 +183,4 @@ From the User view you can manage your documents.
 
 1. Create automatically the persistent disk for the multi-tenancy option: E.
 2. Create blueprints for docker-swarm.
+3. Extend swagger specification for the rest of microservices.
